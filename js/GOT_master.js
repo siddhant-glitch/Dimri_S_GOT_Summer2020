@@ -67,6 +67,9 @@ function animateBanner() {
 	houseName.textContent = `House ${houseInfo[this.dataset.offset][0]}`;
 	houseBio.textContent = `House ${houseInfo[this.dataset.offset][1]}`;
 
+
+	showHideLightbox();
+
 	//and
 }
 
@@ -77,6 +80,7 @@ function animateBanner() {
 // sigils.forEach(sigil => sigil.addEventListener("click", showHideLightbox));
 
 sigils.forEach(sigil => sigil.addEventListener("click", animateBanner));
+
 lbClose.addEventListener("click", showHideLightbox);
 
 // add an "ended" event handler for the video -> close the lightbox
