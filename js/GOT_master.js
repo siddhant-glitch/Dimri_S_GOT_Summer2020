@@ -115,14 +115,7 @@ function vidMute() {
             lbVideo.muted = true;
         }
 
-        if (lbVideo.paused) {
-		lbVideo.play();
-	} else {
-		//lightbox is open and we want to rewind and stop wheen we close it
-		lbVideo.currentTime = 0;
-	    lbVideo.pause();
-	}
-
+       
     }
 
 // function hideLightbox() {
