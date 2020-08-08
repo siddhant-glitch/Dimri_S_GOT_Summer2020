@@ -5,10 +5,18 @@ console.log('fired!');
 let lightBox = document.querySelector(".lightbox"),
 	lbClose = lightBox.querySelector("span"),
 	lbVideo = lightBox.querySelector("video"),
-	sigils = document.querySelectorAll(".sigilContainer");
-	houseImages = document.querySelector("#houseImages");
-	houseName = document.querySelector(".house-name");
-	houseBio = document.querySelector(".house-info")
+	sigils = document.querySelectorAll(".sigilContainer"),
+	houseImages = document.querySelector("#houseImages"),
+	houseName = document.querySelector(".house-name"),
+	houseBio = document.querySelector(".house-info");
+
+	const fullscreenButton = document.querySelector('.fullsc'),
+		  play = document.querySelector('.play'),
+		  mute = document.querySelector('.mute');
+
+
+
+
 
 const houseInfo = [
 	["Stark",`House Stark of Winterfell is a Great House of Westeros, ruling over the vast region known as the North from their seat in Winterfell. It is one of the oldest lines of Westerosi nobility by far, claiming a line of descent stretching back over eight thousand years. Before the Targaryen conquest, as well as during the War of the Five Kings and Daenerys Targaryen's invasion of Westeros, the leaders of House Stark ruled over the region as the Kings in the North.`],
@@ -67,11 +75,48 @@ function animateBanner() {
 	houseName.textContent = `House ${houseInfo[this.dataset.offset][0]}`;
 	houseBio.textContent = `House ${houseInfo[this.dataset.offset][1]}`;
 
+	let targetName = this.className.split(" ")[1]; // this will split the classes
+    let targetSource = targetName.charAt(0).toUpperCase() + targetName.slice(1);
+
+    let newVideoSource = `video/House-${targetSource}.mp4`;
+
+    lbVideo.src = newVideoSource;
 
 	showHideLightbox();
 
 	//and
 }
+
+// fullscreen functionality
+function toggleFullScreen() {
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  } else {
+    lbVideo.requestFullscreen();
+  }
+}
+
+// Play/pause functionality
+function playPause() {
+
+      if (lbVideo.paused == true) {
+          lbVideo.play();
+      } else {
+          lbVideo.pause();
+      }
+  }
+
+//Mute/unmute functionality
+function vidMute() {
+
+        if (lbVideo.muted) {
+            lbVideo.muted = false;
+        } else {
+            lbVideo.muted = true;
+        }
+
+       
+    }
 
 // function hideLightbox() {
 // 	lightBox.classList.remove('show-lightbox');
@@ -82,6 +127,12 @@ function animateBanner() {
 sigils.forEach(sigil => sigil.addEventListener("click", animateBanner));
 
 lbClose.addEventListener("click", showHideLightbox);
+
+fullscreenButton.addEventListener("click", toggleFullScreen);
+
+play.addEventListener("click", playPause);
+
+mute.addEventListener("click", vidMute);
 
 // add an "ended" event handler for the video -> close the lightbox
 lbVideo.addEventListener("ended", showHideLightbox);
