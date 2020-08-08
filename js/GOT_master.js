@@ -10,8 +10,11 @@ let lightBox = document.querySelector(".lightbox"),
 	houseName = document.querySelector(".house-name"),
 	houseBio = document.querySelector(".house-info");
 
-	const fullscreenButton = document.querySelector('.back');
-	const fullscreenIcons = fullscreenButton.querySelectorAll('use');
+	const fullscreenButton = document.querySelector('.fullsc'),
+		  play = document.querySelector('.play'),
+		  mute = document.querySelector('.mute');
+
+
 
 
 
@@ -72,15 +75,19 @@ function animateBanner() {
 	houseName.textContent = `House ${houseInfo[this.dataset.offset][0]}`;
 	houseBio.textContent = `House ${houseInfo[this.dataset.offset][1]}`;
 
+	let targetName = this.className.split(" ")[1]; // this will split the classes
+    let targetSource = targetName.charAt(0).toUpperCase() + targetName.slice(1);
+
+    let newVideoSource = `video/House-${targetSource}.mp4`;
+
+    lbVideo.src = newVideoSource;
 
 	showHideLightbox();
 
 	//and
 }
 
-// toggleFullScreen toggles the full screen state of the video
-// If the browser is currently in fullscreen mode,
-// then it must be exited and vice versa.
+// fullscreen functionality
 function toggleFullScreen() {
   if (document.fullscreenElement) {
     document.exitFullscreen();
@@ -89,6 +96,34 @@ function toggleFullScreen() {
   }
 }
 
+// Play/pause functionality
+function playPause() {
+
+      if (lbVideo.paused == true) {
+          lbVideo.play();
+      } else {
+          lbVideo.pause();
+      }
+  }
+
+//Mute/unmute functionality
+function vidMute() {
+
+        if (lbVideo.muted) {
+            lbVideo.muted = false;
+        } else {
+            lbVideo.muted = true;
+        }
+
+        if (lbVideo.paused) {
+		lbVideo.play();
+	} else {
+		//lightbox is open and we want to rewind and stop wheen we close it
+		lbVideo.currentTime = 0;
+	    lbVideo.pause();
+	}
+
+    }
 
 // function hideLightbox() {
 // 	lightBox.classList.remove('show-lightbox');
@@ -101,6 +136,10 @@ sigils.forEach(sigil => sigil.addEventListener("click", animateBanner));
 lbClose.addEventListener("click", showHideLightbox);
 
 fullscreenButton.addEventListener("click", toggleFullScreen);
+
+play.addEventListener("click", playPause);
+
+mute.addEventListener("click", vidMute);
 
 // add an "ended" event handler for the video -> close the lightbox
 lbVideo.addEventListener("ended", showHideLightbox);
